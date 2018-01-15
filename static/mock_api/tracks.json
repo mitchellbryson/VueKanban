@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "To Do",
+    "order": 1
+  },
+  {
+    "id": 2,
+    "title": "Doing",
+    "order": 2
+  },
+  {
+    "id": 3,
+    "title": "Done",
+    "order": 3
+  }
+]
