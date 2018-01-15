@@ -8,7 +8,8 @@
         :key="track.id"
         :track="track"
         :cards="track.cards"
-        @create-card="createCard">
+        @create-card="createCard"
+        @update-card="updateCard">
       </kanban-track>
     </div>
   </div>
@@ -46,21 +47,25 @@ export default {
       ],
       cards: [
         {
+          id: 1,
           title: 'This needs to be done please.',
           order: 1,
           trackId: 1
         },
         {
+          id: 2,
           title: 'This one is late.',
           order: 2,
           trackId: 1
         },
         {
+          id: 3,
           title: "Let's get this done now!",
           order: 1,
           trackId: 2
         },
         {
+          id: 4,
           title: "Already done this one.",
           order: 1,
           trackId: 3
@@ -93,6 +98,11 @@ export default {
       };
 
       this.cards.push(newCard);
+    },
+    updateCard: function (newTitle, cardId) {
+      var card = this.cards.filter( (card) => card.id == cardId )[0];
+      
+      this.$set(card, 'title', newTitle);
     }
   }
 }

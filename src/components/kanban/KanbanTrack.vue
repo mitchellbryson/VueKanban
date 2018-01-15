@@ -14,7 +14,12 @@
         @cancel="cancelCard">
       </kanban-card-new>
 
-      <kanban-card v-for="card in cards" :key="card.id" :card="card"></kanban-card>
+      <kanban-card
+        v-for="card in cards"
+        :key="card.id"
+        :card="card"
+        @update="updateCard">
+      </kanban-card>
     </ul>
   </div>
 </template>
@@ -57,6 +62,9 @@ export default {
 
     createCard: function (title) {
       this.$emit('create-card', title, this.track.id);
+    },
+    updateCard: function (newTitle, cardId) {
+      this.$emit('update-card', newTitle, cardId);
     },
     cancelCard: function () {
       this.showNewCard();
