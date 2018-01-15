@@ -1,6 +1,8 @@
 <template>
-  <li class="card">
-    {{ card }}
+  <li class="card list-group-item">
+    <p class="lead">
+      {{ card.title }}
+    </p>
   </li>
 </template>
 
@@ -19,4 +21,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .card {
+    margin-bottom: 30px;
+  }
 </style>
