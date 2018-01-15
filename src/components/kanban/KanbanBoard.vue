@@ -2,7 +2,14 @@
   <div class="board">
     <h1>{{ title }}</h1>
     <div class="row">
-      <kanban-track class="col" v-for="track in tracksOrderedWithCards" :key="track.id" :track="track"></kanban-track>
+      <kanban-track
+        class="col"
+        v-for="track in tracksOrderedWithCards"
+        :key="track.id"
+        :track="track"
+        :cards="track.cards"
+        @create-card="createCard">
+      </kanban-track>
     </div>
   </div>
 </template>
@@ -16,7 +23,7 @@ export default {
   components: {
     KanbanTrack
   },
-  
+
   data () {
     return {
       title: "Let's Kanban!",
@@ -75,7 +82,18 @@ export default {
       );
 
       return this.tracksOrdered;
-    },
+    }
+  },
+
+  methods: {
+    createCard: function (title, trackId) {
+      var newCard = {
+        title: title,
+        trackId: trackId
+      };
+
+      this.cards.push(newCard);
+    }
   }
 }
 </script>
