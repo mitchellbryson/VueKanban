@@ -88,7 +88,7 @@ export default {
     loadTracks: function () {
       var self = this;
 
-      return axios.get('/static/mock_api/tracks.json')
+      return axios.get('./static/mock_api/tracks.json')
         .then(function (response) {
           self.tracks = response.data;
         })
@@ -99,7 +99,7 @@ export default {
     loadCards: function () {
       var self = this;
 
-      return axios.get('/static/mock_api/cards.json')
+      return axios.get('./static/mock_api/cards.json')
         .then(function (response) {
           self.cards = response.data;
         })
@@ -110,7 +110,7 @@ export default {
     postTracks: function () {
       var self = this;
 
-      return axios.post('/static/mock_api/tracks.json', self.tracks)
+      return axios.post('./static/mock_api/tracks.json', self.tracks)
         .then(function (response) {
           self.tracks = response.data;
         })
@@ -121,7 +121,7 @@ export default {
     postCards: function () {
       var self = this;
 
-      return axios.post('/static/mock_api/cards.json', self.tracks)
+      return axios.post('./static/mock_api/cards.json', self.tracks)
         .then(function (response) {
           self.cards = response.data;
         })
