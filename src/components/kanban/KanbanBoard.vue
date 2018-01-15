@@ -1,22 +1,22 @@
 <template>
-  <div>
+  <div class="board">
     <h1>{{ title }}</h1>
     <div class="row">
-      <div class="col" v-for="track in tracksWithCards" :key="track.id">
-        {{ track }}
-        <ul>
-          <li v-for="card in track.cards" :key="card.id">
-            {{ card }}
-          </li>
-        </ul>
-      </div>
+      <kanban-track class="col" v-for="track in tracksOrderedWithCards" :key="track.id" :track="track"></kanban-track>
     </div>
   </div>
 </template>
 
 <script>
+import KanbanTrack from './KanbanTrack';
+
 export default {
   name: 'KanbanBoard',
+
+  components: {
+    KanbanTrack
+  },
+  
   data () {
     return {
       title: "Let's Kanban!",
@@ -63,19 +63,19 @@ export default {
   },
 
   computed: {
-    tracksOrdered: function () {
-      return this.tracks.sort( (a, b) => a.order - b.order )
+    cardsOrdered: function () {
+      return this.cards.sort( (a, b) => a.order - b.order );
     },
-    tracksWithCards: function () {
-      this.tracks.forEach( (track) =>
+    tracksOrdered: function () {
+      return this.tracks.sort( (a, b) => a.order - b.order );
+    },
+    tracksOrderedWithCards: function () {
+      this.tracksOrdered.forEach( (track) =>
         track.cards = this.cardsOrdered.filter( (card) => card.trackId === track.id )
       );
 
-      return this.tracks;
+      return this.tracksOrdered;
     },
-    cardsOrdered: function () {
-      return this.cards.sort( (a, b) => a.order - b.order )
-    }
   }
 }
 </script>
