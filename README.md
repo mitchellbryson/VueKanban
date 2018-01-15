@@ -2,6 +2,8 @@
 
 > A Vue.js project
 
+Demo: https://mitchellbryson.github.io/VueKanban/
+
 ## Build Setup
 
 ``` bash
