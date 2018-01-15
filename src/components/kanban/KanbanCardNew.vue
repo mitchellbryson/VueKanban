@@ -1,7 +1,7 @@
 <template>
   <input
     type="text"
-    class="lead mb-3 mt-1 p-2"
+    class="lead mb-3 p-2"
     placeholder="Enter a task..."
     v-model="title"
     @keyup.enter="create"
@@ -34,4 +34,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  input {
+    font-weight: 500 !important;
+    background-color: rgba(white, .8);
+    border: 0;
+    @include border-radius($border-radius);
+
+    @include hover-focus {
+      outline: rgba($gray-900, .1) auto 5px;
+    }
+
+    &, &::placeholder {
+      color: $gray-700;
+    }
+  }
 </style>

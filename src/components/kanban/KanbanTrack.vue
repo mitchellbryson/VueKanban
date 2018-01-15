@@ -1,15 +1,30 @@
 <template>
-  <div class="track">
-    <header class="d-flex justify-content-between">
-      <h2>{{ track.title }}</h2>
-      <button class="btn btn-secondary" @click="showNewCard">
-        {{ newCardText }}
+  <div class="track p-3">
+    <header class="d-flex justify-content-between align-items-start">
+      <input
+        ref="editing"
+        class="h4 mb-3"
+        placeholder="Enter a title..."
+        v-model="newTitle"
+        @keyup.enter="update"
+        @keyup.escape="cancel"
+        v-show="editing">
+      <h2
+        class="title h4 mb-3"
+        @dblclick="edit"
+        v-show="!editing">
+        {{ track.title }}
+      </h2>
+      <button
+        class="btn btn-add btn-sm btn-dark"
+        @click="newCard"
+        v-html="newCardText">
       </button>
     </header>
     <ul class="cards list-group">
       <kanban-card-new
         ref="newCard"
-        v-show="newCardShown"
+        v-show="creatingCard"
         @create="createCard"
         @cancel="cancelCard">
       </kanban-card-new>
@@ -18,7 +33,8 @@
           v-for="card in cardsOrdered"
           :key="card.id"
           :card="card"
-          @update="updateCard">
+          @update="updateCard"
+          @destroy="destroyCard">
         </kanban-card>
       </draggable>
     </ul>
@@ -43,15 +59,17 @@ export default {
 
   data () {
     return {
-      newCardShown: false,
-      newCardText: 'Add'
+      creatingCard: false,
+      newCardText: '&plus;',
+      editing: false,
+      newTitle: this.track.title
     }
   },
 
   computed: {
     cardsOrdered: {
       get () {
-        return this.cards;
+        return this.cards.sort( (a, b) => a.order - b.order );;
       },
       set (cards) {
         this.$emit('update-all-cards', cards, this.track.id)
@@ -60,20 +78,38 @@ export default {
   },
 
   methods: {
-    showNewCard: function () {
-      this.newCardShown = !this.newCardShown;
+    edit() {
+      this.editing = !this.editing;
 
-      if (this.newCardShown) {
-        this.newCardText = 'Cancel';
+      this.$nextTick(function () {
+        this.$refs.editing.focus();
+        this.$refs.editing.select();
+      });
+    },
+    update() {
+      this.$emit('update-track', this.newTitle, this.track.id);
 
-        this.$nextTick( () => (
-          this.$refs.newCard.$el.focus()
-        ));
-      } else {
-        this.newCardText = 'Add';
-      }
+      this.editing = !this.editing;
+    },
+    cancel() {
+      this.newTitle = this.track.title;
+
+      this.editing = !this.editing;
     },
 
+    newCard: function () {
+      this.creatingCard = !this.creatingCard;
+
+      if (this.creatingCard) {
+        this.newCardText = '&times;';
+
+        this.$nextTick( () => this.$refs.newCard.$el.focus() );
+      } else {
+        this.newCardText = '&plus;';
+
+        this.$nextTick( () => this.$refs.newCard.$el.blur() );
+      }
+    },
     createCard: function (title) {
       this.$emit('create-card', title, this.track.id);
     },
@@ -81,7 +117,10 @@ export default {
       this.$emit('update-card', newTitle, cardId);
     },
     cancelCard: function () {
-      this.showNewCard();
+      this.newCard();
+    },
+    destroyCard: function(cardId) {
+      this.$emit('destroy-card', cardId);
     }
   }
 }
@@ -89,11 +128,44 @@ export default {
 
 <style lang="scss" scoped>
   .track {
-    background-color: $gray-300;
+    @include border-radius($border-radius);
+
+    .title {
+      color: rgba($gray-900, .8);
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+
+    input {
+      color: rgba($gray-900, .8);
+      font-weight: 800;
+      border: 0;
+
+      @include hover-focus {
+        outline: rgba($gray-900, .1) auto 5px;
+      }
+    }
+
+    .btn-add {
+      padding: 0 $spacer / 2;
+      font-size: $font-size-lg;
+      font-weight: 700;
+      background-color: rgba($gray-900, .2);
+      border-color: transparent;
+
+      @include hover-focus {
+        background-color: rgba($gray-900, .6);
+        border-color: transparent;
+      }
+    }
 
     .drag-area {
-      min-height: 50px;
-      background-color: $gray-400;
+      min-height: 52px;
+      @include border-radius($border-radius);
+
+      &:empty {
+        background-color: rgba($gray-900, .05);
+      }
     }
   }
 </style>
