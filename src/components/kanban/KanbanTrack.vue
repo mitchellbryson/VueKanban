@@ -13,8 +13,7 @@
         @create="createCard"
         @cancel="cancelCard">
       </kanban-card-new>
-
-      <draggable v-model="cardsOrdered" :options="{group: 'track'}">
+      <draggable class="drag-area" v-model="cardsOrdered" :options="{group: 'track'}">
         <kanban-card
           v-for="card in cardsOrdered"
           :key="card.id"
@@ -91,5 +90,10 @@ export default {
 <style lang="scss" scoped>
   .track {
     background-color: $gray-300;
+
+    .drag-area {
+      min-height: 50px;
+      background-color: $gray-400;
+    }
   }
 </style>
