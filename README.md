@@ -2,7 +2,11 @@
 
 > A Vue.js project
 
+
 Demo: https://mitchellbryson.github.io/VueKanban/
+
+Video: https://youtu.be/QG7n6eLvENM
+
 
 ## Build Setup
 
