@@ -14,12 +14,14 @@
         @cancel="cancelCard">
       </kanban-card-new>
 
-      <kanban-card
-        v-for="card in cards"
-        :key="card.id"
-        :card="card"
-        @update="updateCard">
-      </kanban-card>
+      <draggable v-model="cardsOrdered" :options="{group: 'track'}">
+        <kanban-card
+          v-for="card in cardsOrdered"
+          :key="card.id"
+          :card="card"
+          @update="updateCard">
+        </kanban-card>
+      </draggable>
     </ul>
   </div>
 </template>
@@ -27,13 +29,15 @@
 <script>
 import KanbanCard from './KanbanCard';
 import KanbanCardNew from './KanbanCardNew';
+import draggable from 'vuedraggable'
 
 export default {
   name: 'KanbanBoard',
 
   components: {
     KanbanCard,
-    KanbanCardNew
+    KanbanCardNew,
+    draggable
   },
 
   props: ['track', 'cards'],
@@ -42,6 +46,17 @@ export default {
     return {
       newCardShown: false,
       newCardText: 'Add'
+    }
+  },
+
+  computed: {
+    cardsOrdered: {
+      get () {
+        return this.cards;
+      },
+      set (cards) {
+        this.$emit('update-all-cards', cards, this.track.id)
+      }
     }
   },
 

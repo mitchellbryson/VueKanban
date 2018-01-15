@@ -9,7 +9,8 @@
         :track="track"
         :cards="track.cards"
         @create-card="createCard"
-        @update-card="updateCard">
+        @update-card="updateCard"
+        @update-all-cards="updateAllCards">
       </kanban-track>
     </div>
   </div>
@@ -101,8 +102,16 @@ export default {
     },
     updateCard: function (newTitle, cardId) {
       var card = this.cards.filter( (card) => card.id == cardId )[0];
-      
+
       this.$set(card, 'title', newTitle);
+    },
+    updateAllCards: function (cards, trackId) {
+      cards.forEach( (card, index) => card.order = index );
+      cards.forEach( (card) => card.trackId = trackId );
+
+      var track = this.tracks.filter( (track) => track.id == trackId )[0];
+
+      track.cards = cards;
     }
   }
 }
