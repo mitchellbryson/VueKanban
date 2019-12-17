@@ -5,7 +5,7 @@
 
 Demo: https://mitchellbryson.github.io/VueKanban/
 
-Video: https://youtu.be/QG7n6eLvENM
+Video: https://youtu.be/1sqjXPE422w
 
 
 ## Build Setup
